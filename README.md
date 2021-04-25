@@ -6,7 +6,7 @@ Projeto desenvolvido para a disciplina de Desenvolvimento de Softwares. RepositÃ
 
 Na raiz do projeto execute os seguintes comandos:
 
-### npm install 
+### `npm install` 
 
 Instala todas as dependÃªncias do projeto.
 
