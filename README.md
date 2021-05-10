@@ -6,11 +6,11 @@ Projeto desenvolvido para a disciplina de Desenvolvimento de Softwares. RepositÃ
 
 Na raiz do projeto execute os seguintes comandos:
 
-### `npm install` 
+### `yarn install` 
 
 Instala todas as dependÃªncias do projeto.
 
-### `npm start`
+### `yarn start`
 
 Executa o app em modo de desenvolvimento.
 Abra [http://localhost:3000](http://localhost:3000) para visualizar no navegador.
