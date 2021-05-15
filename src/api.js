@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'https://google.com.br ',
+  baseURL: 'http://localhost:4000/api',
 });

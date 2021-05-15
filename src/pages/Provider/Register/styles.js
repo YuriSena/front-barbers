@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../../colors';
+import { colors } from '../../../colors';
 
 export const MainContainer = styled.div`
   display: grid;
@@ -71,6 +71,23 @@ export const MainContainer = styled.div`
           border: 1px solid;
           border-radius: 5px;
         }
+      }
+    }
+
+    #button-container {
+      display: flex;
+      width: 80%;
+      height: 50px;
+      justify-content: space-evenly;
+      align-items: space-evenly;
+
+      button {
+        width: 20%;
+        background: transparent;
+        border-radius: 5px;
+        background-color: #363636;
+        color: white;
+        height: auto;
       }
     }
   }
