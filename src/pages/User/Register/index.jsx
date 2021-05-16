@@ -123,6 +123,18 @@ const ClientRegister = () => {
               }}
             />
           </label>
+
+          <div id="question-container">
+            <span>Já tem conta?</span>
+            <span
+              onClick={() => {
+                history.push('/');
+              }}
+              id="link-to-register"
+            >
+              Faça login aqui.
+            </span>
+          </div>
         </div>
         <div id="button-container">
           <button

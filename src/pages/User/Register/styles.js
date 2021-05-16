@@ -74,6 +74,17 @@ export const MainContainer = styled.div`
       }
     }
 
+    #question-container {
+      display: flex;
+      margin: 1em 0 1em 0;
+
+      #link-to-register {
+        margin-left: 0.3em;
+        cursor: pointer;
+        color: ${colors.SkyBlue};
+      }
+    }
+
     #button-container {
       display: flex;
       width: 80%;

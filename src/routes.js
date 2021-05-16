@@ -10,11 +10,11 @@ function Routes() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={UserRegister} />
+        <Route exact path="/" component={UserLogin} />
         {/* rota padrao, cadastro do cliente */}
         <Route exact path="/provider-register" component={ProviderRegister} />
         {/* rota de cadastro do barbeiro */}
-        <Route exact path="/user-login" component={UserLogin} />
+        <Route exact path="/user-register" component={UserRegister} />
         {/* rota de login do cliente */}
         <Route exact path="/provider-login" component={ProviderLogin} />
         {/* rota de login do barbeiro */}

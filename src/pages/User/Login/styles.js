@@ -73,5 +73,33 @@ export const MainContainer = styled.div`
         }
       }
     }
+
+    #question-container {
+      display: flex;
+      margin: 1em 0 1em 0;
+
+      #link-to-register {
+        margin-left: 0.3em;
+        cursor: pointer;
+        color: ${colors.SkyBlue};
+      }
+    }
+
+    #button-container {
+      display: flex;
+      width: 80%;
+      height: 50px;
+      justify-content: space-evenly;
+      align-items: space-evenly;
+
+      button {
+        width: 20%;
+        background: transparent;
+        border-radius: 5px;
+        background-color: #363636;
+        color: white;
+        height: auto;
+      }
+    }
   }
 `;
