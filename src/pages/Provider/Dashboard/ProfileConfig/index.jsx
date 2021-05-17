@@ -1,10 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { api } from '../../../../api';
 
 import { MainContainer } from './styles';
 
 function ProviderProfileConfig() {
   const history = useHistory();
+
   return (
     <MainContainer>
       <div id="content">

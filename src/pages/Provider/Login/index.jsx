@@ -15,15 +15,33 @@ const ProviderLogin = () => {
     password: '',
   });
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const data = {
       email: inputs.email,
       password: inputs.password,
     };
-    api.post('/Providers/signin', data).then(() => {
-      history.push('/provider-dashboard');
-      console.log('vinicio cocao');
+
+    const teste = await api.post('/providers/signin', data);
+    sessionStorage.setItem(
+      'userData',
+      JSON.stringify({ ...teste.data.body, ...data }),
+    );
+    history.push('/provider-dashboard');
+    console.log(teste);
+
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    console.log(userData);
+    const user = await api.get(`/providers/${userData.userId}`, {
+      headers: { Authorization: `Bearer ${userData.token}` },
     });
+
+    sessionStorage.setItem(
+      'userData',
+      JSON.stringify({
+        ...userData,
+        ...user.data.body,
+      }),
+    );
   };
 
   return (
@@ -86,7 +104,7 @@ const ProviderLogin = () => {
         <div id="button-container">
           <button
             onClick={() => {
-              history.push('/user-login');
+              history.push('/');
             }}
             type="button"
           >

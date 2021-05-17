@@ -9,6 +9,9 @@ const ProviderDashboard = () => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
 
+  const user = JSON.parse(sessionStorage.getItem('userData'));
+  console.log(user);
+
   const handleProfileConfig = () => {
     history.push('/provider-dashboard/profile-config');
   };

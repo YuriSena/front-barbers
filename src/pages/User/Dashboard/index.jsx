@@ -9,18 +9,25 @@ import profileImageDefault from '../../../assets/profileImageDefault.PNG';
 const UserDashboard = () => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
-  const [barbersList, setBarbersList] = useState({});
-
+  const [barbersList, setBarbersList] = useState({
+    items: [],
+    page: 1,
+    totalItems: 0,
+  });
+  const [userInfo, setUserInfo] = useState({});
   const user = JSON.parse(sessionStorage.getItem('userData'));
-  console.log(user);
+  useEffect(() => {
+    setUserInfo(user);
+  }, []);
+
+  console.log(userInfo);
 
   useEffect(async () => {
-    console.log(user);
     const barbers = await api.get('/providers', {
       headers: { Authorization: `Bearer ${user.token}` },
     });
-    setBarbersList(barbers.data.body);
-    console.log(barbersList);
+    console.log(barbers);
+    setBarbersList({ ...barbers.data.body });
   }, []);
 
   // useEffect(async () => {
@@ -79,7 +86,7 @@ const UserDashboard = () => {
             src={profileImageDefault}
             alt="profile-default"
           />
-          <span id="user-name">Nome Completo</span>
+          <span id="user-name">{userInfo.name}</span>
           {/* <FaArrowCircleDown id="menu-arrow" /> */}
         </div>
 
