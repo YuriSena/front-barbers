@@ -15,19 +15,32 @@ const UserLogin = () => {
     password: '',
   });
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const data = {
       email: inputs.email,
       password: inputs.password,
     };
 
-    api.post('/clients/signin', data).then((response) => {
+    await api.post('/clients/signin', data).then((response) => {
       sessionStorage.setItem(
         'userData',
         JSON.stringify({ ...response.data.body, ...data }),
       );
       history.push('/user-dashboard');
     });
+
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    const user = await api.get(`/clients/${userData.userId}`, {
+      headers: { Authorization: `Bearer ${userData.token}` },
+    });
+
+    sessionStorage.setItem(
+      'userData',
+      JSON.stringify({
+        ...userData,
+        ...user.data.body,
+      }),
+    );
   };
 
   return (

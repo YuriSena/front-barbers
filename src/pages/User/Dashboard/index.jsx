@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { api } from '../../../api';
 
@@ -9,23 +9,55 @@ import profileImageDefault from '../../../assets/profileImageDefault.PNG';
 const UserDashboard = () => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
+  const [barbersList, setBarbersList] = useState({});
 
-  const handleProfile = async () => {
-    const userData = JSON.parse(sessionStorage.getItem('userData'));
-    console.log(userData);
-    const user = await api.get(`/clients/${userData.userId}`, {
-      headers: { Authorization: `Bearer ${userData.token}` },
+  const user = JSON.parse(sessionStorage.getItem('userData'));
+  console.log(user);
+
+  useEffect(async () => {
+    console.log(user);
+    const barbers = await api.get('/providers', {
+      headers: { Authorization: `Bearer ${user.token}` },
     });
-    sessionStorage.setItem(
-      'userData',
-      JSON.stringify({
-        name: user.data.body.name,
-        phone: user.data.body.phone,
-      }),
-    );
-    console.log(user.data.body.phone);
-  };
-  handleProfile();
+    setBarbersList(barbers.data.body);
+    console.log(barbersList);
+  }, []);
+
+  // useEffect(async () => {
+  //   const userData = JSON.parse(sessionStorage.getItem('userData'));
+  //   const user = await api
+  //     .get(`/clients/${userData.userId}`, {
+  //       headers: { Authorization: `Bearer ${userData.token}` },
+  //     })
+  //     .then((response) => {
+  //       sessionStorage.setItem(
+  //         'userData',
+  //         JSON.stringify({ ...response.data.body, ...user }),
+  //       );
+  //     });
+  //   console.log(userData);
+  // }, []);
+
+  // const handleProfile = async () => {
+  //   const userData = JSON.parse(sessionStorage.getItem('userData'));
+  //   console.log(userData);
+  //   const user = await api
+  //     .get(`/clients/${userData.userId}`, {
+  //       headers: { Authorization: `Bearer ${userData.token}` },
+  //     })
+  //     .then((response) => {
+  //       sessionStorage.setItem(
+  //         'userData',
+  //         JSON.stringify({
+  //           name: user.data.body.name,
+  //           phone: user.data.body.phone,
+  //         }),
+  //       );
+  //     });
+
+  //   console.log(user.data.body.phone);
+  // };
+  // handleProfile();
 
   // sessionStorage.setItem('userData', {...user});
 
@@ -65,45 +97,20 @@ const UserDashboard = () => {
 
       <div id="content-container">
         <h1 id="content-title">Lista de barbeiros disponíveis</h1>
-        <div id="barber-container">
-          <img id="barber-image" src={profileImageDefault} alt="barber" />
-          <div id="barber-info-container">
-            <span>Vinicius Lemos</span>
-            <span>Rua dos bobos, 24</span>
-          </div>
-        </div>
 
-        <div id="barber-container">
-          <img id="barber-image" src={profileImageDefault} alt="barber" />
-          <div id="barber-info-container">
-            <span>Vinicius Lemos</span>
-            <span>Rua dos bobos, 24</span>
+        {barbersList.items.map((barber, index) => (
+          <div id="barber-container">
+            <img
+              id="barber-image"
+              src={barber.image_url ? barber.image_url : profileImageDefault}
+              alt="barber"
+            />
+            <div id="barber-info-container">
+              <span>{barber.name}</span>
+              <span>{barber.address}</span>
+            </div>
           </div>
-        </div>
-
-        <div id="barber-container">
-          <img id="barber-image" src={profileImageDefault} alt="barber" />
-          <div id="barber-info-container">
-            <span>Vinicius Lemos</span>
-            <span>Rua dos bobos, 24</span>
-          </div>
-        </div>
-
-        <div id="barber-container">
-          <img id="barber-image" src={profileImageDefault} alt="barber" />
-          <div id="barber-info-container">
-            <span>Vinicius Lemos</span>
-            <span>Rua dos bobos, 24</span>
-          </div>
-        </div>
-
-        <div id="barber-container">
-          <img id="barber-image" src={profileImageDefault} alt="barber" />
-          <div id="barber-info-container">
-            <span>Vinicius Lemos</span>
-            <span>Rua dos bobos, 24</span>
-          </div>
-        </div>
+        ))}
       </div>
     </MainContainer>
   );
