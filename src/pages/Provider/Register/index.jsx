@@ -42,12 +42,12 @@ const ProviderRegister = () => {
     api
       .post('/providers', data)
       .then(() => {
-        history.push('/provider-login');
+        history.push('/');
       })
       .catch((error) => {
         if (error.response.data) {
           setErrors(error.response.data.error);
-          history.push('/provider-login');
+          history.push('/');
         }
       });
   };

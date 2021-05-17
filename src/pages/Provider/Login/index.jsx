@@ -8,7 +8,7 @@ import barberIcon from '../../../assets/barberIcon1.PNG';
 import { colors } from '../../../colors';
 import { api } from '../../../api';
 
-const ClientLogin = () => {
+const ProviderLogin = () => {
   const history = useHistory();
   const [inputs, setInputs] = useState({
     email: '',
@@ -20,7 +20,7 @@ const ClientLogin = () => {
       email: inputs.email,
       password: inputs.password,
     };
-    api.post('/clients/signin', data).then(() => {
+    api.post('/Providers/signin', data).then(() => {
       history.push('/provider-dashboard');
       console.log('vinicio cocao');
     });
@@ -86,7 +86,7 @@ const ClientLogin = () => {
         <div id="button-container">
           <button
             onClick={() => {
-              history.push('/provider-login');
+              history.push('/user-login');
             }}
             type="button"
           >
@@ -100,4 +100,4 @@ const ClientLogin = () => {
     </MainContainer>
   );
 };
-export default ClientLogin;
+export default ProviderLogin;
