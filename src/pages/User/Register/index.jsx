@@ -39,6 +39,9 @@ const ClientRegister = () => {
     console.log(data);
     api
       .post('/clients', data)
+      .then((response) => {
+        console.log(response);
+      })
       .then(() => {
         history.push('/');
       })

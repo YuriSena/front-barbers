@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { api } from '../../../api';
 
 // import { FaArrowCircleDown } from 'react-icons/fa';
 import { MainContainer } from './styles';
@@ -8,6 +9,25 @@ import profileImageDefault from '../../../assets/profileImageDefault.PNG';
 const UserDashboard = () => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
+
+  const handleProfile = async () => {
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    console.log(userData);
+    const user = await api.get(`/clients/${userData.userId}`, {
+      headers: { Authorization: `Bearer ${userData.token}` },
+    });
+    sessionStorage.setItem(
+      'userData',
+      JSON.stringify({
+        name: user.data.body.name,
+        phone: user.data.body.phone,
+      }),
+    );
+    console.log(user.data.body.phone);
+  };
+  handleProfile();
+
+  // sessionStorage.setItem('userData', {...user});
 
   const handleProfileConfig = () => {
     history.push('/user-dashboard/profile-config');

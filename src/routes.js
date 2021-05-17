@@ -29,7 +29,7 @@ function Routes() {
           path="/user-dashboard/profile-config"
           component={UserProfileConfig}
         />
-        {/* rota para dashboard do barbeiro */}
+        {/* rota para dashboard do usuario */}
       </Switch>
     </BrowserRouter>
   );

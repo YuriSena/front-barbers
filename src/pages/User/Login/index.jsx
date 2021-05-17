@@ -20,9 +20,13 @@ const UserLogin = () => {
       email: inputs.email,
       password: inputs.password,
     };
-    api.post('/clients/signin', data).then(() => {
+
+    api.post('/clients/signin', data).then((response) => {
+      sessionStorage.setItem(
+        'userData',
+        JSON.stringify({ ...response.data.body, ...data }),
+      );
       history.push('/user-dashboard');
-      console.log('vinicio cocao');
     });
   };
 
