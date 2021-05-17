@@ -64,6 +64,7 @@ export const MainContainer = styled.div`
         width: 80%;
         height: 60px;
         font-weight: 600;
+
         input {
           height: 100%;
           padding: 0.3em;
@@ -99,6 +100,7 @@ export const MainContainer = styled.div`
         background-color: #363636;
         color: white;
         height: auto;
+        cursor: pointer;
       }
     }
   }

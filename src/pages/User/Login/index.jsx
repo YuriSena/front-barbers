@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { api } from '../services/sertec.js';
 
 import { useHistory } from 'react-router-dom';
 
@@ -9,7 +8,7 @@ import barberIcon from '../../../assets/barberIcon1.PNG';
 import { colors } from '../../../colors';
 import { api } from '../../../api';
 
-const ClientLogin = () => {
+const UserLogin = () => {
   const history = useHistory();
   const [inputs, setInputs] = useState({
     email: '',
@@ -101,4 +100,4 @@ const ClientLogin = () => {
     </MainContainer>
   );
 };
-export default ClientLogin;
+export default UserLogin;

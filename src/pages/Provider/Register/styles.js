@@ -64,6 +64,7 @@ export const MainContainer = styled.div`
         width: 80%;
         height: 60px;
         font-weight: 600;
+
         input {
           height: 100%;
           padding: 0.3em;
@@ -71,6 +72,17 @@ export const MainContainer = styled.div`
           border: 1px solid;
           border-radius: 5px;
         }
+      }
+    }
+
+    #question-container {
+      display: flex;
+      margin: 1em 0 1em 0;
+
+      #link-to-register {
+        margin-left: 0.3em;
+        cursor: pointer;
+        color: ${colors.SkyBlue};
       }
     }
 
@@ -88,6 +100,7 @@ export const MainContainer = styled.div`
         background-color: #363636;
         color: white;
         height: auto;
+        cursor: pointer;
       }
     }
   }

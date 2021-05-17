@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { api } from '../../../api';
 
@@ -40,12 +40,12 @@ const ClientRegister = () => {
     api
       .post('/clients', data)
       .then(() => {
-        history.push('/user-login');
+        history.push('/');
       })
       .catch((error) => {
         if (error.response.data) {
           setErrors(error.response.data.error);
-          history.push('/login');
+          history.push('/');
         }
       });
   };

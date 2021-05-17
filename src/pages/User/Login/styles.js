@@ -99,6 +99,7 @@ export const MainContainer = styled.div`
         background-color: #363636;
         color: white;
         height: auto;
+        cursor: pointer;
       }
     }
   }

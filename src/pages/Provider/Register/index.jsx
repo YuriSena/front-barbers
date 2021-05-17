@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { api } from '../../../api';
 
@@ -22,7 +22,7 @@ const ProviderRegister = () => {
   // useEffect(async () => {
   //   const {
   //     data: { body },
-  //   } = await api.post('/Providers/signin', {
+  //   } = await api.post('/clients/signin', {
   //     email: 'ccmoura230@inf.ufpel.edu.br',
   //     password: 'teste123',
   //   });
@@ -30,6 +30,7 @@ const ProviderRegister = () => {
   // }, []);
 
   const handleRegister = () => {
+    console.log('vinicio cocao');
     const data = {
       name: inputs.name,
       email: inputs.email,
@@ -139,11 +140,23 @@ const ProviderRegister = () => {
               }}
             />
           </label>
+
+          <div id="question-container">
+            <span>Já tem conta?</span>
+            <span
+              onClick={() => {
+                history.push('/provider-login');
+              }}
+              id="link-to-register"
+            >
+              Faça login aqui.
+            </span>
+          </div>
         </div>
         <div id="button-container">
           <button
             onClick={() => {
-              history.push('/');
+              history.push('/user-register');
             }}
             type="button"
           >

@@ -5,6 +5,8 @@ import UserRegister from './pages/User/Register';
 import ProviderRegister from './pages/Provider/Register';
 import UserLogin from './pages/User/Login';
 import ProviderLogin from './pages/Provider/Login';
+import UserDashboard from './pages/User/Dashboard';
+import UserProfileConfig from './pages/User/Dashboard/ProfileConfig';
 
 function Routes() {
   return (
@@ -18,6 +20,16 @@ function Routes() {
         {/* rota de login do cliente */}
         <Route exact path="/provider-login" component={ProviderLogin} />
         {/* rota de login do barbeiro */}
+        <Route exact path="/user-dashboard" component={UserDashboard} />
+        {/* rota para dashboard do usuario */}
+        <Route exact path="/provider-dashboard" component={UserDashboard} />
+        {/* rota para dashboard do barbeiro */}
+        <Route
+          exact
+          path="/user-dashboard/profile-config"
+          component={UserProfileConfig}
+        />
+        {/* rota para dashboard do barbeiro */}
       </Switch>
     </BrowserRouter>
   );
