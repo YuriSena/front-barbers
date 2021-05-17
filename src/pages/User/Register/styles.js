@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../../colors';
+import { colors } from '../../../colors';
 
 export const MainContainer = styled.div`
   display: grid;
@@ -64,6 +64,7 @@ export const MainContainer = styled.div`
         width: 80%;
         height: 60px;
         font-weight: 600;
+
         input {
           height: 100%;
           padding: 0.3em;
@@ -71,6 +72,35 @@ export const MainContainer = styled.div`
           border: 1px solid;
           border-radius: 5px;
         }
+      }
+    }
+
+    #question-container {
+      display: flex;
+      margin: 1em 0 1em 0;
+
+      #link-to-register {
+        margin-left: 0.3em;
+        cursor: pointer;
+        color: ${colors.SkyBlue};
+      }
+    }
+
+    #button-container {
+      display: flex;
+      width: 80%;
+      height: 50px;
+      justify-content: space-evenly;
+      align-items: space-evenly;
+
+      button {
+        width: 20%;
+        background: transparent;
+        border-radius: 5px;
+        background-color: #363636;
+        color: white;
+        height: auto;
+        cursor: pointer;
       }
     }
   }
