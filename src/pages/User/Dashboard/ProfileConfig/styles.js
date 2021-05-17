@@ -31,13 +31,22 @@ export const MainContainer = styled.div`
       }
     }
 
-    button {
-      height: 40px;
-      color: white;
-      border: 1px solid;
-      border-radius: 5px;
-      background-color: black;
-      cursor: pointer;
+    #button-container {
+      display: flex;
+      width: 100%;
+      height: 50px;
+      justify-content: space-evenly;
+      align-items: space-evenly;
+
+      button {
+        width: 20%;
+        background: transparent;
+        border-radius: 5px;
+        background-color: #363636;
+        color: white;
+        height: auto;
+        cursor: pointer;
+      }
     }
   }
 `;
