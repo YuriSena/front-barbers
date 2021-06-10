@@ -32,6 +32,39 @@ export const MainContainer = styled.div`
     }
   }
 
+  #select-container {
+    display: flex;
+    color: black;
+    grid-column: 3/4;
+    grid-row: 2;
+    align-items: flex-end;
+    /* background-color: white;
+    height: 25px; */
+
+    #client-select {
+      display: flex;
+      flex: 1;
+      background-color: gray;
+      height: 35px;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid rgba(0, 0, 0, 0.4);
+      color: white;
+      cursor: pointer;
+    }
+
+    #provider-select {
+      display: flex;
+      flex: 1;
+      background-color: white;
+      height: 35px;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+    }
+  }
+
   #modal-container {
     display: flex;
     flex-direction: column;

@@ -14,62 +14,28 @@ const UserDashboard = () => {
     page: 1,
     totalItems: 0,
   });
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState(
+    JSON.parse(sessionStorage.getItem('userData')),
+  );
   const user = JSON.parse(sessionStorage.getItem('userData'));
   useEffect(() => {
     setUserInfo(user);
   }, []);
 
-  console.log(userInfo);
-
   useEffect(async () => {
     const barbers = await api.get('/providers', {
       headers: { Authorization: `Bearer ${user.token}` },
     });
-    console.log(barbers);
     setBarbersList({ ...barbers.data.body });
   }, []);
 
-  // useEffect(async () => {
-  //   const userData = JSON.parse(sessionStorage.getItem('userData'));
-  //   const user = await api
-  //     .get(`/clients/${userData.userId}`, {
-  //       headers: { Authorization: `Bearer ${userData.token}` },
-  //     })
-  //     .then((response) => {
-  //       sessionStorage.setItem(
-  //         'userData',
-  //         JSON.stringify({ ...response.data.body, ...user }),
-  //       );
-  //     });
-  //   console.log(userData);
-  // }, []);
-
-  // const handleProfile = async () => {
-  //   const userData = JSON.parse(sessionStorage.getItem('userData'));
-  //   console.log(userData);
-  //   const user = await api
-  //     .get(`/clients/${userData.userId}`, {
-  //       headers: { Authorization: `Bearer ${userData.token}` },
-  //     })
-  //     .then((response) => {
-  //       sessionStorage.setItem(
-  //         'userData',
-  //         JSON.stringify({
-  //           name: user.data.body.name,
-  //           phone: user.data.body.phone,
-  //         }),
-  //       );
-  //     });
-
-  //   console.log(user.data.body.phone);
-  // };
-  // handleProfile();
-
-  // sessionStorage.setItem('userData', {...user});
-
   const handleProfileConfig = () => {
     history.push('/user-dashboard/profile-config');
+  };
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    history.push('/');
   };
 
   return (
@@ -95,7 +61,7 @@ const UserDashboard = () => {
             <span id="profile-config" onClick={handleProfileConfig}>
               Editar perfil
             </span>
-            <span>Sair</span>
+            <span onClick={handleLogout}>Sair</span>
           </div>
         ) : (
           ''

@@ -21,16 +21,14 @@ const ProviderLogin = () => {
       password: inputs.password,
     };
 
-    const teste = await api.post('/providers/signin', data);
-    sessionStorage.setItem(
-      'userData',
-      JSON.stringify({ ...teste.data.body, ...data }),
-    );
-    history.push('/provider-dashboard');
-    console.log(teste);
+    await api.post('/providers/signin', data).then((response) => {
+      sessionStorage.setItem(
+        'userData',
+        JSON.stringify({ ...response.data.body, ...data }),
+      );
+    });
 
     const userData = JSON.parse(sessionStorage.getItem('userData'));
-    console.log(userData);
     const user = await api.get(`/providers/${userData.userId}`, {
       headers: { Authorization: `Bearer ${userData.token}` },
     });
@@ -42,6 +40,8 @@ const ProviderLogin = () => {
         ...user.data.body,
       }),
     );
+
+    history.push('/provider-dashboard');
   };
 
   return (
@@ -49,6 +49,20 @@ const ProviderLogin = () => {
       <div id="logo-container">
         <img id="logo-image" src={barberIcon} alt="barber-icon" />
         {/* <h1 id="logo-title">Barbers</h1> */}
+      </div>
+
+      <div id="select-container">
+        <div
+          id="client-select"
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          <span>Cliente</span>
+        </div>
+        <div id="provider-select">
+          <span>Barbeiro</span>
+        </div>
       </div>
 
       <div id="modal-container">
@@ -102,14 +116,14 @@ const ProviderLogin = () => {
         </div>
 
         <div id="button-container">
-          <button
+          {/* <button
             onClick={() => {
               history.push('/');
             }}
             type="button"
           >
             Mudar para Cliente
-          </button>
+          </button> */}
           <button onClick={handleLogin} type="button">
             Fazer login
           </button>

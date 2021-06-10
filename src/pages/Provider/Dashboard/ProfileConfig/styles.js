@@ -31,6 +31,46 @@ export const MainContainer = styled.div`
       }
     }
 
+    #avatar-container {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      margin-top: 2em;
+      flex-direction: column;
+
+      #picture-switch-container {
+        display: flex;
+        position: relative;
+
+        input[type='file'] {
+          display: none;
+        }
+
+        label {
+          width: 150px;
+          height: 150px;
+          background-color: transparent;
+          border-radius: 50%;
+          color: #fff;
+          cursor: pointer;
+          /* margin: 10px; */
+          padding: 6px 20px;
+          position: absolute;
+        }
+
+        img {
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+      span {
+        margin-top: 1em;
+      }
+    }
+
     button {
       height: 40px;
       color: white;

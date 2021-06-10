@@ -26,7 +26,6 @@ const UserLogin = () => {
         'userData',
         JSON.stringify({ ...response.data.body, ...data }),
       );
-      history.push('/user-dashboard');
     });
 
     const userData = JSON.parse(sessionStorage.getItem('userData'));
@@ -41,6 +40,7 @@ const UserLogin = () => {
         ...user.data.body,
       }),
     );
+    history.push('/user-dashboard');
   };
 
   return (
@@ -48,6 +48,20 @@ const UserLogin = () => {
       <div id="logo-container">
         <img id="logo-image" src={barberIcon} alt="barber-icon" />
         {/* <h1 id="logo-title">Barbers</h1> */}
+      </div>
+
+      <div id="select-container">
+        <div id="client-select">
+          <span>Cliente</span>
+        </div>
+        <div
+          id="provider-select"
+          onClick={() => {
+            history.push('/provider-login');
+          }}
+        >
+          <span>Barbeiro</span>
+        </div>
       </div>
 
       <div id="modal-container">
@@ -101,14 +115,14 @@ const UserLogin = () => {
         </div>
 
         <div id="button-container">
-          <button
+          {/* <button
             onClick={() => {
               history.push('/provider-login');
             }}
             type="button"
           >
             Mudar para Barbeiro
-          </button>
+          </button> */}
           <button onClick={handleLogin} type="button">
             Fazer login
           </button>

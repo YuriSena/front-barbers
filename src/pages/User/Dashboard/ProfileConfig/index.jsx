@@ -13,7 +13,7 @@ function UserProfileConfig() {
 
   const [inputs, setInputs] = useState({
     email: '',
-    address: '',
+    phone: '',
     name: '',
   });
 
