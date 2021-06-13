@@ -29,19 +29,14 @@ const ClientRegister = () => {
   // }, []);
 
   const handleRegister = () => {
-    console.log('vinicio cocao');
     const data = {
       name: inputs.name,
       email: inputs.email,
       phone: inputs.phone,
       password: inputs.password,
     };
-    console.log(data);
     api
       .post('/clients', data)
-      .then((response) => {
-        console.log(response);
-      })
       .then(() => {
         history.push('/');
       })
@@ -60,6 +55,20 @@ const ClientRegister = () => {
       <div id="logo-container">
         <img id="logo-image" src={barberIcon} alt="barber-icon" />
         {/* <h1 id="logo-title">Barbers</h1> */}
+      </div>
+
+      <div id="select-container">
+        <div id="client-select">
+          <span>Cliente</span>
+        </div>
+        <div
+          id="provider-select"
+          onClick={() => {
+            history.push('/provider-register');
+          }}
+        >
+          <span>Barbeiro</span>
+        </div>
       </div>
 
       <div id="modal-container">
@@ -140,14 +149,14 @@ const ClientRegister = () => {
           </div>
         </div>
         <div id="button-container">
-          <button
+          {/* <button
             onClick={() => {
               history.push('/provider-register');
             }}
             type="button"
           >
             Mudar para Barbeiro
-          </button>
+          </button> */}
           <button onClick={handleRegister} type="button">
             Cadastrar
           </button>

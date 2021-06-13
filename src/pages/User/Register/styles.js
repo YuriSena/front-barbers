@@ -4,7 +4,7 @@ import { colors } from '../../../colors';
 export const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr 4fr 2fr 1fr;
-  grid-template-rows: 50px 1fr 2fr 1fr;
+  grid-template-rows: 50px 1fr 35px 2fr 50px;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -32,6 +32,39 @@ export const MainContainer = styled.div`
     }
   }
 
+  #select-container {
+    display: flex;
+    color: black;
+    grid-column: 3/4;
+    grid-row: 3;
+    align-items: flex-end;
+    /* background-color: white;
+    height: 25px; */
+
+    #client-select {
+      display: flex;
+      flex: 1;
+      background-color: gray;
+      height: 35px;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid rgba(0, 0, 0, 0.4);
+      color: white;
+      cursor: pointer;
+    }
+
+    #provider-select {
+      display: flex;
+      flex: 1;
+      background-color: white;
+      height: 35px;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+    }
+  }
+
   #modal-container {
     display: flex;
     flex-direction: column;
@@ -40,7 +73,7 @@ export const MainContainer = styled.div`
     box-sizing: border-box;
     width: 100%;
     grid-column: 3/4;
-    grid-row: 3/4;
+    grid-row: 4/5;
     background: white;
     padding: 1em;
     border-radius: 5px;

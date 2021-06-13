@@ -10,6 +10,8 @@ import { colors } from '../../../colors';
 const ProviderRegister = () => {
   const history = useHistory();
   const [errors, setErrors] = useState(false);
+  const [checked1, setChecked1] = useState(false);
+  const [checked2, setChecked2] = useState(false);
 
   const [inputs, setInputs] = useState({
     email: '',
@@ -17,6 +19,7 @@ const ProviderRegister = () => {
     name: '',
     phone: '',
     address: '',
+    services: [false],
   });
 
   // useEffect(async () => {
@@ -30,15 +33,26 @@ const ProviderRegister = () => {
   // }, []);
 
   const handleRegister = () => {
-    console.log('vinicio cocao');
     const data = {
       name: inputs.name,
       email: inputs.email,
       phone: inputs.phone,
       password: inputs.password,
       address: inputs.address,
+      services: [],
+      prices: [],
     };
+    if (checked1) {
+      data.services.push(1);
+      data.prices.push(0);
+    }
+    if (checked2) {
+      data.services.push(2);
+      data.prices.push(0);
+    }
+
     console.log(data);
+
     api
       .post('/providers', data)
       .then(() => {
@@ -59,6 +73,20 @@ const ProviderRegister = () => {
       <div id="logo-container">
         <img id="logo-image" src={barberIcon} alt="barber-icon" />
         {/* <h1 id="logo-title">Barbers</h1> */}
+      </div>
+
+      <div id="select-container">
+        <div
+          id="client-select"
+          onClick={() => {
+            history.push('/user-register');
+          }}
+        >
+          <span>Cliente</span>
+        </div>
+        <div id="provider-select">
+          <span>Barbeiro</span>
+        </div>
       </div>
 
       <div id="modal-container">
@@ -141,6 +169,36 @@ const ProviderRegister = () => {
             />
           </label>
 
+          <div id="services-container">
+            <label htmlFor="beard">
+              Barba
+              <input
+                type="checkbox"
+                id="beard"
+                name="beard"
+                checked={checked1}
+                value={inputs.beard}
+                onChange={() => {
+                  setChecked1(!checked1);
+                }}
+              />
+            </label>
+
+            <label htmlFor="haircut">
+              Cabelo
+              <input
+                type="checkbox"
+                id="haircut"
+                name="haircut"
+                checked={checked2}
+                value={inputs.haircut}
+                onChange={() => {
+                  setChecked2(!checked2);
+                }}
+              />
+            </label>
+          </div>
+
           <div id="question-container">
             <span>Já tem conta?</span>
             <span
@@ -154,14 +212,14 @@ const ProviderRegister = () => {
           </div>
         </div>
         <div id="button-container">
-          <button
+          {/* <button
             onClick={() => {
               history.push('/user-register');
             }}
             type="button"
           >
             Mudar para Cliente
-          </button>
+          </button> */}
           <button onClick={handleRegister} type="button">
             Cadastrar
           </button>

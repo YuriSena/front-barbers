@@ -15,15 +15,33 @@ const ProviderLogin = () => {
     password: '',
   });
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const data = {
       email: inputs.email,
       password: inputs.password,
     };
-    api.post('/Providers/signin', data).then(() => {
-      history.push('/provider-dashboard');
-      console.log('vinicio cocao');
+
+    await api.post('/providers/signin', data).then((response) => {
+      sessionStorage.setItem(
+        'userData',
+        JSON.stringify({ ...response.data.body, ...data }),
+      );
     });
+
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    const user = await api.get(`/providers/${userData.userId}`, {
+      headers: { Authorization: `Bearer ${userData.token}` },
+    });
+
+    sessionStorage.setItem(
+      'userData',
+      JSON.stringify({
+        ...userData,
+        ...user.data.body,
+      }),
+    );
+
+    history.push('/provider-dashboard');
   };
 
   return (
@@ -31,6 +49,20 @@ const ProviderLogin = () => {
       <div id="logo-container">
         <img id="logo-image" src={barberIcon} alt="barber-icon" />
         {/* <h1 id="logo-title">Barbers</h1> */}
+      </div>
+
+      <div id="select-container">
+        <div
+          id="client-select"
+          onClick={() => {
+            history.push('/');
+          }}
+        >
+          <span>Cliente</span>
+        </div>
+        <div id="provider-select">
+          <span>Barbeiro</span>
+        </div>
       </div>
 
       <div id="modal-container">
@@ -84,14 +116,14 @@ const ProviderLogin = () => {
         </div>
 
         <div id="button-container">
-          <button
+          {/* <button
             onClick={() => {
-              history.push('/user-login');
+              history.push('/');
             }}
             type="button"
           >
             Mudar para Cliente
-          </button>
+          </button> */}
           <button onClick={handleLogin} type="button">
             Fazer login
           </button>
