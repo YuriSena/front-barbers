@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Barbers",
+  "name": "Projeto feito para a disciplina de Desenvolvimento de Software",
   "icons": [
     {
       "src": "favicon.ico",
