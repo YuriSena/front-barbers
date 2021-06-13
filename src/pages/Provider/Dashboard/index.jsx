@@ -13,7 +13,7 @@ const ProviderDashboard = () => {
   // const [userInfo, setUserInfo] = useState(
   //   JSON.parse(sessionStorage.getItem('userData')),
   // );
-  const [appointmentsList, setAppointmentsList] = useState();
+  const [appointmentsList, setAppointmentsList] = useState([]);
   const user = JSON.parse(sessionStorage.getItem('userData'));
   console.log(user);
 
