@@ -20,12 +20,11 @@ export const MainContainer = styled.div`
     h1 {
       font-weight: 600;
       margin-top: 2em;
+      align-self: center;
     }
     #content {
       display: flex;
-      height: 50vh;
       flex-direction: column;
-      padding: 2em;
       height: 80%;
       overflow-y: scroll;
       ::-webkit-scrollbar {
@@ -154,7 +153,8 @@ export const MainContainer = styled.div`
 
             #addShift-container {
               display: flex;
-              width: 100%;
+              width: 150px;
+              height: 30px;
               padding-left: 0.6em;
               align-items: center;
               color: #b2acfa;
@@ -162,6 +162,7 @@ export const MainContainer = styled.div`
 
               span {
                 margin-left: 0.2em;
+                font-size: 15px;
               }
             }
           }
@@ -208,12 +209,34 @@ export const MainContainer = styled.div`
         }
       }
 
-      button {
-        min-height: 40px;
-        color: white;
+      #button-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        button {
+          width: 80px;
+          height: 40px;
+          color: white;
+          border: 1px solid;
+          border-radius: 5px;
+          background-color: black;
+          cursor: pointer;
+
+          :nth-child(2) {
+            background-color: #6558f5;
+          }
+        }
+      }
+
+      #delete-account-button {
+        margin-top: 2em;
+        width: 150px;
+        min-height: 35px;
+        background-color: #d3455b;
         border: 1px solid;
         border-radius: 5px;
-        background-color: black;
+        color: white;
         cursor: pointer;
       }
     }

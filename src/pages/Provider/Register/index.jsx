@@ -156,7 +156,7 @@ const ProviderRegister = () => {
           </label>
 
           <label htmlFor="address">
-            Endereço
+            Endereço Completo
             <input
               placeholder="Endereço"
               type="text"

@@ -10,6 +10,11 @@ export const MainContainer = styled.div`
   width: 100%;
   height: 100vh;
   justify-content: center;
+  background: linear-gradient(to bottom, black, black, #1f1f1f, #2e2e2e);
+
+  span {
+    color: white !important;
+  }
 
   #closure {
     display: flex;
@@ -21,12 +26,11 @@ export const MainContainer = styled.div`
       font-weight: 600;
       margin-top: 2em;
       align-self: center;
+      color: white;
     }
     #content {
       display: flex;
-      height: 50vh;
       flex-direction: column;
-      padding: 2em;
       height: 80%;
       overflow-y: scroll;
       ::-webkit-scrollbar {
@@ -106,13 +110,14 @@ export const MainContainer = styled.div`
           width: 80px;
           height: 40px;
           color: white;
-          border: 1px solid;
+          border: 1px solid black;
           border-radius: 5px;
           background-color: black;
           cursor: pointer;
 
           :nth-child(2) {
             background-color: #6558f5;
+            border-color: #6558f5;
           }
         }
       }
@@ -122,7 +127,7 @@ export const MainContainer = styled.div`
         width: 150px;
         height: 35px;
         background-color: #d3455b;
-        border: 1px solid;
+        border: 1px solid #d3455b;
         border-radius: 5px;
         color: white;
         cursor: pointer;

@@ -31,8 +31,6 @@ const ProviderDashboard = () => {
     history.push('/provider-login');
   };
 
-  console.log(appointmentsList);
-
   return (
     <MainContainer>
       <div id="menu-avatar">
@@ -44,11 +42,10 @@ const ProviderDashboard = () => {
         >
           <img
             id="profile-image"
-            src={profileImageDefault}
+            src={user.image_url ? user.image_url : profileImageDefault}
             alt="profile-default"
           />
-          <span id="provider-name">Nome Completo</span>
-          {/* <FaArrowCircleDown id="menu-arrow" /> */}
+          <span id="provider-name">{user.name}</span>
         </div>
 
         {open ? (

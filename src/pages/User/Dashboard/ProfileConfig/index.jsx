@@ -95,7 +95,6 @@ function UserProfileConfig() {
                 value={inputs.image_url}
                 id="input-file"
                 onChange={fileUpload}
-                // onClick={handleChange}
               />
               {isWaitingAvatarLoading ? (
                 <span>vinicio muito cocao</span>
@@ -160,7 +159,6 @@ function UserProfileConfig() {
                 setInputs({ ...inputs, [e.target.name]: e.target.value });
               }}
             />
-            {/* <input type="text" placeholder="senha" /> */}
           </form>
 
           <div id="button-container">

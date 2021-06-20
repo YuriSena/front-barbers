@@ -31,6 +31,7 @@ export const MainContainer = styled.div`
         width: 60px;
         height: 60px;
         border-radius: 50%;
+        object-fit: cover;
       }
 
       #user-name {
@@ -79,6 +80,12 @@ export const MainContainer = styled.div`
       color: white;
     }
 
+    #content-title2 {
+      text-align: center;
+      color: white;
+      margin-top: 1em;
+    }
+
     #barber-container {
       display: flex;
       height: 10%;
@@ -93,13 +100,44 @@ export const MainContainer = styled.div`
         width: 60px;
         height: 60px;
         border-radius: 50%;
+        object-fit: cover;
       }
 
       #barber-info-container {
         display: flex;
-        flex-direction: column;
-        padding-left: 1em;
+        height: 80%;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.5em;
+        cursor: pointer;
+
+        span {
+          font-weight: 600;
+        }
+
+        button {
+          width: 100px;
+          height: 40px;
+          background: #05598b;
+          border: 1px solid #05598b;
+          border-radius: 5px;
+          color: white;
+          cursor: pointer;
+        }
       }
+    }
+
+    #appointment-day {
+      color: white;
+      margin-top: 1.5em;
+    }
+
+    #appointment-error-message {
+      color: white;
+      text-align: center;
+      margin-top: 1em;
     }
   }
 `;

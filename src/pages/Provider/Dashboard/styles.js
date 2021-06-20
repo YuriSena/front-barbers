@@ -31,10 +31,11 @@ export const MainContainer = styled.div`
         width: 60px;
         height: 60px;
         border-radius: 50%;
+        object-fit: cover;
       }
 
-      #user-name {
-        padding-left: 1em;
+      #provider-name {
+        margin-left: 1em;
         padding-top: 1em;
         width: 80%;
       }
@@ -90,6 +91,21 @@ export const MainContainer = styled.div`
       overflow-y: scroll;
       ::-webkit-scrollbar {
         display: none;
+      }
+
+      #appoint-date {
+        position: relative;
+        padding-bottom: 0.5em;
+
+        &:before {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 2px;
+          background-color: white;
+          bottom: 0;
+          position: absolute;
+        }
       }
 
       #barber-container {
