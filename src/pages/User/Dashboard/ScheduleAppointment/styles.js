@@ -43,6 +43,7 @@ export const MainContainer = styled.div`
           width: 140px;
           height: 140px;
           border-radius: 50%;
+          object-fit: cover;
         }
 
         h2 {
@@ -77,7 +78,7 @@ export const MainContainer = styled.div`
           }
         }
 
-        #callendar {
+        #calendar {
           background-color: white;
           width: 100%;
           height: 290px;

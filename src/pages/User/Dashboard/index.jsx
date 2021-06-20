@@ -26,9 +26,12 @@ const UserDashboard = () => {
   }, []);
 
   useEffect(async () => {
-    const barbers = await api.get('/providers', {
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
+    const barbers = await api.get(
+      `/providers?perPage=${Number.MAX_SAFE_INTEGER}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
     const {
       data: { body },
     } = await api.get('client-appointments', {
@@ -129,14 +132,15 @@ const UserDashboard = () => {
             Você não possui nenhum agendamento.
           </h3>
         ) : (
-          appointmentList.map((appointments, index) => (
+          appointmentList.map((appointments) => (
             <>
               <span id="appointment-day">
                 {appointments.day.split('-').reverse().join('/')}
               </span>
               <div
                 id="barber-container"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   handleViewAppointment(appointments);
                 }}
               >
@@ -159,7 +163,10 @@ const UserDashboard = () => {
 
                   <button
                     type="button"
-                    onClick={() => handleDeleteAppointment(appointments.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteAppointment(appointments.id);
+                    }}
                   >
                     Cancelar
                   </button>
