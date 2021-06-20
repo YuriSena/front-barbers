@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { IoMdAddCircleOutline } from 'react-icons/io';
+import { FiSave } from 'react-icons/fi';
 import { api } from '../../../../api';
 
 import { MainContainer } from './styles';
@@ -18,6 +19,7 @@ function ProviderProfileConfig() {
   const [friday, setFriday] = useState(false);
   const [saturday, setSaturday] = useState(false);
   const [sunday, setSunday] = useState(false);
+  const [day, setDay] = useState([{ weekday: '', startHour: '', endHour: '' }]);
 
   const [checked1, setChecked1] = useState(
     !!userData.services.find((e) => e.service === 'Barba'),
@@ -75,7 +77,7 @@ function ProviderProfileConfig() {
     }
 
     setInputs(temp);
-    setAvailable(shifts);
+    setDay(shifts);
   }, []);
 
   useEffect(() => {
@@ -169,9 +171,22 @@ function ProviderProfileConfig() {
     ]);
   };
 
-  const handleDeleteShifts = (weekday) => {
-    const day = available.find((aux) => aux.weekday === weekday);
+  const handleDayChange = (e, index, field) => {
+    // 1. Make a shallow copy of the items
+    const items = day;
+    // 2. Make a shallow copy of the item you want to mutate
+    const item = { ...items[index] };
+    // 3. Replace the property you're intested in
+    item[field] = e.target.value;
+    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
+    items[index] = item;
+    // 5. Set the state to our new copy
+    setDay(items);
     console.log(day);
+  };
+
+  const handleDeleteShifts = (weekday) => {
+    available.find((aux) => aux.weekday === weekday);
   };
 
   return (
@@ -332,39 +347,55 @@ function ProviderProfileConfig() {
                 </label>
 
                 {monday &&
-                  available.map((shift) =>
+                  day.map((shift, index) =>
                     shift.weekday === 'monday' ? (
-                      <>
-                        <div id="start-end-container">
-                          <label htmlFor="start">das</label>
-                          <input
-                            type="text"
-                            name="start"
-                            value={
-                              shift.weekday === 'monday' ? shift.startHour : ''
-                            }
-                          />
-                          <label htmlFor="end">às</label>
-                          <input
-                            type="text"
-                            name="end"
-                            value={
-                              shift.weekday === 'monday' ? shift.endHour : ''
-                            }
-                          />
-                        </div>
-                      </>
+                      <div
+                        key={`${shift.weekday}:${shift.startHour}`}
+                        id="start-end-container"
+                      >
+                        <label htmlFor="start">das</label>
+                        <input
+                          type="text"
+                          name="start"
+                          // value={shift.startHour}
+                          defaultValue={shift.startHour}
+                          // value={
+                          //   shift.weekday === 'monday' ? shift.startHour : ''
+                          // }
+                          onChange={(e) =>
+                            handleDayChange(e, index, 'startHour')
+                          }
+                          // onBlur={(e) => setDay({})}
+                        />
+                        <label htmlFor="end">às</label>
+                        <input
+                          type="text"
+                          name="end"
+                          // value={shift.endHour}
+                          defaultValue={shift.startHour}
+                          onChange={(e) => handleDayChange(e, index, 'endHour')}
+                        />
+                      </div>
                     ) : (
                       ''
                     ),
                   )}
-                <div
-                  id="addShift-container"
-                  onClick={() => handleAddShift('monday')}
-                >
-                  <IoMdAddCircleOutline size="30" />
-                  <span>Adicionar turno</span>
-                </div>
+                {monday && (
+                  <div id="button-shift-container">
+                    <div
+                      id="addShift-container"
+                      onClick={() => handleAddShift('monday')}
+                    >
+                      <IoMdAddCircleOutline size="30" />
+                      <span>Adicionar turno</span>
+                    </div>
+
+                    <div id="save-shift-container">
+                      <FiSave size="30" />
+                      <span>Salvar turnos</span>
+                    </div>
+                  </div>
+                )}
 
                 <label htmlFor="tuesday">
                   <input
