@@ -76,7 +76,7 @@ function ScheduleAppointment() {
 
   const handleTimeButton = (availability) => {
     setStartHour(availability);
-    if (timeButton === 'active' && availability) {
+    if (timeButton === 'active') {
       setTimeButton('disabled');
     } else {
       setTimeButton('active');
@@ -152,15 +152,23 @@ function ScheduleAppointment() {
                           }`,
                     ) && (
                       <button
+                        id="time-button"
                         type="button"
                         onClick={() => handleTimeButton(availability)}
-                        className={timeButton}
                       >
                         {availability}
                       </button>
                     ),
                 )}
             </div>
+            {startHour !== '' ? (
+              <span id="hour-message-confirm">
+                Horario selecionado: {startHour}
+              </span>
+            ) : (
+              ''
+            )}
+
             <button
               id="scheduling-button"
               type="button"

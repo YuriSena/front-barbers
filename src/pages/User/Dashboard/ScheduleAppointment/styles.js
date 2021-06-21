@@ -94,7 +94,7 @@ export const MainContainer = styled.div`
           flex-wrap: wrap;
           margin-top: 1em;
 
-          .disabled {
+          #time-button {
             width: 60px;
             height: 40px;
             background: transparent;
@@ -103,16 +103,12 @@ export const MainContainer = styled.div`
             margin: 0.3em 0.3em;
             color: white;
           }
+        }
 
-          .active {
-            width: 60px;
-            height: 40px;
-            border: 1px solid #05598b;
-            cursor: pointer;
-            margin: 0.3em 0.3em;
-            color: white;
-            background-color: #05598b;
-          }
+        #hour-message-confirm {
+          margin-top: 1em;
+          font-weight: 600;
+          color: ${colors.SkyBlue};
         }
 
         #scheduling-button {
@@ -123,6 +119,7 @@ export const MainContainer = styled.div`
           border: 1px solid #05598b;
           border-radius: 5px;
           color: white;
+          cursor: pointer;
         }
       }
     }
