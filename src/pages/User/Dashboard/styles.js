@@ -68,76 +68,89 @@ export const MainContainer = styled.div`
     }
   }
 
-  #content-container {
-    display: flex;
-    flex-direction: column;
+  #closure {
+    display: block;
     grid-column: 3;
     grid-row: 2/7;
-    color: black;
+    height: 100%;
+    overflow-y: hidden;
 
-    #content-title {
-      text-align: center;
-      color: white;
-    }
-
-    #content-title2 {
-      text-align: center;
-      color: white;
-      margin-top: 1em;
-    }
-
-    #barber-container {
+    #content-container {
       display: flex;
-      height: 10%;
-      align-items: center;
-      margin: 1em 0 1em 0;
-      border: 2px solid rgba(0, 0, 0, 0.5);
-      border-radius: 5px;
-      background: #807e66;
-      padding-left: 1em;
-
-      #barber-image {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
+      flex-direction: column;
+      grid-column: 3;
+      grid-row: 2/7;
+      color: black;
+      height: 90vh;
+      overflow-y: scroll;
+      ::-webkit-scrollbar {
+        display: none;
       }
 
-      #barber-info-container {
+      #content-title {
+        text-align: center;
+        color: white;
+      }
+
+      #content-title2 {
+        text-align: center;
+        color: white;
+        margin-top: 1em;
+      }
+
+      #barber-container {
         display: flex;
-        height: 80%;
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
+        min-height: 10%;
         align-items: center;
-        padding: 0 1.5em;
-        cursor: pointer;
+        margin: 1em 0 1em 0;
+        border: 2px solid rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
+        background: #807e66;
+        padding-left: 1em;
 
-        span {
-          font-weight: 600;
+        #barber-image {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          object-fit: cover;
         }
 
-        button {
-          width: 100px;
-          height: 40px;
-          background: #05598b;
-          border: 1px solid #05598b;
-          border-radius: 5px;
-          color: white;
+        #barber-info-container {
+          display: flex;
+          height: 80%;
+          width: 100%;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 1.5em;
           cursor: pointer;
+
+          span {
+            font-weight: 600;
+          }
+
+          button {
+            width: 100px;
+            height: 40px;
+            background: #05598b;
+            border: 1px solid #05598b;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+          }
         }
       }
-    }
 
-    #appointment-day {
-      color: white;
-      margin-top: 1.5em;
-    }
+      #appointment-day {
+        color: white;
+        margin-top: 1.5em;
+      }
 
-    #appointment-error-message {
-      color: white;
-      text-align: center;
-      margin-top: 1em;
+      #appointment-error-message {
+        color: white;
+        text-align: center;
+        margin-top: 1em;
+      }
     }
   }
 `;

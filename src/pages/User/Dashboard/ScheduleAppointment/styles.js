@@ -79,9 +79,10 @@ export const MainContainer = styled.div`
         }
 
         #calendar {
-          background-color: white;
+          /* background-color: white; */
           width: 100%;
           height: 290px;
+          margin: 1em 0;
         }
 
         #available-times-title {
@@ -91,8 +92,9 @@ export const MainContainer = styled.div`
         #time-buttons-container {
           display: flex;
           flex-wrap: wrap;
+          margin-top: 1em;
 
-          #time-button {
+          .disabled {
             width: 60px;
             height: 40px;
             background: transparent;
@@ -100,6 +102,16 @@ export const MainContainer = styled.div`
             cursor: pointer;
             margin: 0.3em 0.3em;
             color: white;
+          }
+
+          .active {
+            width: 60px;
+            height: 40px;
+            border: 1px solid #05598b;
+            cursor: pointer;
+            margin: 0.3em 0.3em;
+            color: white;
+            background-color: #05598b;
           }
         }
 

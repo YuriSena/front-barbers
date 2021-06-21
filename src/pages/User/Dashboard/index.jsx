@@ -105,76 +105,78 @@ const UserDashboard = () => {
         )}
       </div>
 
-      <div id="content-container">
-        <h1 id="content-title">Lista de barbeiros disponíveis</h1>
+      <div id="closure">
+        <div id="content-container">
+          <h1 id="content-title">Lista de barbeiros disponíveis</h1>
 
-        {barbersList.items.map((barber, index) => (
-          <div
-            id="barber-container"
-            onClick={() => handleScheduleAppointment(barber)}
-          >
-            <img
-              id="barber-image"
-              src={barber.image_url ? barber.image_url : profileImageDefault}
-              alt="barber"
-            />
-            <div id="barber-info-container">
-              <span>{barber.name}</span>
-              <span>Endereço: {barber.address}</span>
-            </div>
-          </div>
-        ))}
-
-        <h1 id="content-title2">Agendamentos</h1>
-
-        {appointmentList.length === 0 ? (
-          <h3 id="appointment-error-message">
-            Você não possui nenhum agendamento.
-          </h3>
-        ) : (
-          appointmentList.map((appointments) => (
-            <>
-              <span id="appointment-day">
-                {appointments.day.split('-').reverse().join('/')}
-              </span>
-              <div
-                id="barber-container"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleViewAppointment(appointments);
-                }}
-              >
-                <img
-                  id="barber-image"
-                  src={
-                    appointments.image_url
-                      ? appointments.image_url
-                      : profileImageDefault
-                  }
-                  alt="barber"
-                />
-                <div id="barber-info-container">
-                  <span>{appointments.name}</span>
-
-                  <span>
-                    Horário: {appointments.start_hour}h --{' '}
-                    {appointments.end_hour}h
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteAppointment(appointments.id);
-                    }}
-                  >
-                    Cancelar
-                  </button>
-                </div>
+          {barbersList.items.map((barber, index) => (
+            <div
+              id="barber-container"
+              onClick={() => handleScheduleAppointment(barber)}
+            >
+              <img
+                id="barber-image"
+                src={barber.image_url ? barber.image_url : profileImageDefault}
+                alt="barber"
+              />
+              <div id="barber-info-container">
+                <span>{barber.name}</span>
+                <span>Endereço: {barber.address}</span>
               </div>
-            </>
-          ))
-        )}
+            </div>
+          ))}
+
+          <h1 id="content-title2">Agendamentos</h1>
+
+          {appointmentList.length === 0 ? (
+            <h3 id="appointment-error-message">
+              Você não possui nenhum agendamento.
+            </h3>
+          ) : (
+            appointmentList.map((appointments) => (
+              <>
+                <span id="appointment-day">
+                  {appointments.day.split('-').reverse().join('/')}
+                </span>
+                <div
+                  id="barber-container"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewAppointment(appointments);
+                  }}
+                >
+                  <img
+                    id="barber-image"
+                    src={
+                      appointments.image_url
+                        ? appointments.image_url
+                        : profileImageDefault
+                    }
+                    alt="barber"
+                  />
+                  <div id="barber-info-container">
+                    <span>{appointments.name}</span>
+
+                    <span>
+                      Horário: {appointments.start_hour}h --{' '}
+                      {appointments.end_hour}h
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteAppointment(appointments.id);
+                      }}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </>
+            ))
+          )}
+        </div>
       </div>
     </MainContainer>
   );

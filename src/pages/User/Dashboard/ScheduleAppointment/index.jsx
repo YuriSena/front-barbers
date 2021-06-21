@@ -24,6 +24,7 @@ function ScheduleAppointment() {
   const [scheduled, setScheduled] = useState([]);
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   const { state } = useLocation();
+  const [timeButton, setTimeButton] = useState('disabled');
 
   useEffect(async () => {
     const {
@@ -71,6 +72,16 @@ function ScheduleAppointment() {
     );
 
     goBack();
+  };
+
+  const handleTimeButton = (availability) => {
+    setStartHour(availability);
+    if (timeButton === 'active' && availability) {
+      setTimeButton('disabled');
+    } else {
+      setTimeButton('active');
+    }
+    console.log(timeButton);
   };
 
   return (
@@ -141,9 +152,9 @@ function ScheduleAppointment() {
                           }`,
                     ) && (
                       <button
-                        id="time-button"
                         type="button"
-                        onClick={() => setStartHour(availability)}
+                        onClick={() => handleTimeButton(availability)}
+                        className={timeButton}
                       >
                         {availability}
                       </button>
