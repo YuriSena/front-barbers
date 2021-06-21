@@ -14,19 +14,33 @@ const UserDashboard = () => {
     page: 1,
     totalItems: 0,
   });
+  const [appointmentList, setAppointmentList] = useState([]);
   const [userInfo, setUserInfo] = useState(
     JSON.parse(sessionStorage.getItem('userData')),
   );
+
   const user = JSON.parse(sessionStorage.getItem('userData'));
+
   useEffect(() => {
     setUserInfo(user);
   }, []);
 
   useEffect(async () => {
-    const barbers = await api.get('/providers', {
-      headers: { Authorization: `Bearer ${user.token}` },
+    const barbers = await api.get(
+      `/providers?perPage=${Number.MAX_SAFE_INTEGER}`,
+      {
+        headers: { Authorization: `Bearer ${user.token}` },
+      },
+    );
+    const {
+      data: { body },
+    } = await api.get('client-appointments', {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
     });
     setBarbersList({ ...barbers.data.body });
+    setAppointmentList(body);
   }, []);
 
   const handleProfileConfig = () => {
@@ -36,6 +50,29 @@ const UserDashboard = () => {
   const handleLogout = () => {
     sessionStorage.clear();
     history.push('/');
+  };
+
+  const handleDeleteAppointment = async (id) => {
+    await api.delete(`/appointments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    history.go(0);
+  };
+
+  const handleViewAppointment = (appointments) => {
+    history.push({
+      pathname: '/user-dashboard/appointment',
+      state: appointments,
+    });
+  };
+
+  const handleScheduleAppointment = (barberData) => {
+    history.push({
+      pathname: '/user-dashboard/schedule-appointment',
+      state: barberData,
+    });
   };
 
   return (
@@ -49,7 +86,7 @@ const UserDashboard = () => {
         >
           <img
             id="profile-image"
-            src={profileImageDefault}
+            src={user.image_url ? user.image_url : profileImageDefault}
             alt="profile-default"
           />
           <span id="user-name">{userInfo.name}</span>
@@ -68,22 +105,78 @@ const UserDashboard = () => {
         )}
       </div>
 
-      <div id="content-container">
-        <h1 id="content-title">Lista de barbeiros disponíveis</h1>
+      <div id="closure">
+        <div id="content-container">
+          <h1 id="content-title">Lista de barbeiros disponíveis</h1>
 
-        {barbersList.items.map((barber, index) => (
-          <div id="barber-container">
-            <img
-              id="barber-image"
-              src={barber.image_url ? barber.image_url : profileImageDefault}
-              alt="barber"
-            />
-            <div id="barber-info-container">
-              <span>{barber.name}</span>
-              <span>{barber.address}</span>
+          {barbersList.items.map((barber, index) => (
+            <div
+              id="barber-container"
+              onClick={() => handleScheduleAppointment(barber)}
+            >
+              <img
+                id="barber-image"
+                src={barber.image_url ? barber.image_url : profileImageDefault}
+                alt="barber"
+              />
+              <div id="barber-info-container">
+                <span>{barber.name}</span>
+                <span>Endereço: {barber.address}</span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+
+          <h1 id="content-title2">Agendamentos</h1>
+
+          {appointmentList.length === 0 ? (
+            <h3 id="appointment-error-message">
+              Você não possui nenhum agendamento.
+            </h3>
+          ) : (
+            appointmentList.map((appointments) => (
+              <>
+                <span id="appointment-day">
+                  {appointments.day.split('-').reverse().join('/')}
+                </span>
+                <div
+                  id="barber-container"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewAppointment(appointments);
+                  }}
+                >
+                  <img
+                    id="barber-image"
+                    src={
+                      appointments.image_url
+                        ? appointments.image_url
+                        : profileImageDefault
+                    }
+                    alt="barber"
+                  />
+                  <div id="barber-info-container">
+                    <span>{appointments.name}</span>
+
+                    <span>
+                      Horário: {appointments.start_hour}h --{' '}
+                      {appointments.end_hour}h
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteAppointment(appointments.id);
+                      }}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </>
+            ))
+          )}
+        </div>
       </div>
     </MainContainer>
   );

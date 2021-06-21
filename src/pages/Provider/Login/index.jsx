@@ -1,25 +1,49 @@
 import React, { useState } from 'react';
-
 import { useHistory } from 'react-router-dom';
-
+import * as yup from 'yup';
 import { MainContainer } from './styles';
-
 import barberIcon from '../../../assets/barberIcon1.PNG';
 import { colors } from '../../../colors';
 import { api } from '../../../api';
 
 const ProviderLogin = () => {
   const history = useHistory();
+  const [errors, setErrors] = useState('');
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
   });
 
-  const handleLogin = async () => {
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .required('Todos os campos são obrigatórios')
+      .email('Formato de email invalido'),
+
+    password: yup
+      .string()
+      .required('Todos os campos são obrigatórios')
+      .min(
+        8,
+        'A senha deve ter no mínimo 8 caracteres, e conter números e letras',
+      ),
+  });
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
     const data = {
       email: inputs.email,
       password: inputs.password,
     };
+
+    try {
+      await schema.validate(data);
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        error.errors.map((err) => setErrors(err));
+      }
+      return false;
+    }
 
     await api.post('/providers/signin', data).then((response) => {
       sessionStorage.setItem(
@@ -42,13 +66,13 @@ const ProviderLogin = () => {
     );
 
     history.push('/provider-dashboard');
+    return true;
   };
 
   return (
     <MainContainer>
       <div id="logo-container">
         <img id="logo-image" src={barberIcon} alt="barber-icon" />
-        {/* <h1 id="logo-title">Barbers</h1> */}
       </div>
 
       <div id="select-container">
@@ -71,6 +95,11 @@ const ProviderLogin = () => {
           <h3>
             Tipo de Login: <h3 style={{ color: colors.SkyBlue }}>Barbeiro</h3>
           </h3>
+          {errors ? (
+            <p style={{ color: 'red', margin: '.3em 0' }}>{errors}</p>
+          ) : (
+            ''
+          )}
         </div>
 
         <div id="form-container">

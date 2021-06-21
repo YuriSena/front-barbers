@@ -9,9 +9,9 @@
 }
 
 * {
-  font-family: 'Roboto Regular';
+  font-family: 'Roboto Regular' !important;
   padding: 0;
   box-sizing: border-box;
   margin: 0;
-  list-style: none;
+  list-style-type: none;
 }

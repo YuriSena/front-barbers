@@ -1,18 +1,32 @@
 import React, { useState } from 'react';
-
 import { useHistory } from 'react-router-dom';
-
+import * as yup from 'yup';
 import { MainContainer } from './styles';
-
 import barberIcon from '../../../assets/barberIcon1.PNG';
 import { colors } from '../../../colors';
 import { api } from '../../../api';
 
 const UserLogin = () => {
   const history = useHistory();
+  const [errors, setErrors] = useState('');
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
+  });
+
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .required('Todos os campos são obrigatórios')
+      .email('Formato de email invalido'),
+
+    password: yup
+      .string()
+      .required('Todos os campos são obrigatórios')
+      .min(
+        8,
+        'A senha deve ter no mínimo 8 caracteres, e conter números e letras',
+      ),
   });
 
   const handleLogin = async () => {
@@ -21,12 +35,26 @@ const UserLogin = () => {
       password: inputs.password,
     };
 
-    await api.post('/clients/signin', data).then((response) => {
-      sessionStorage.setItem(
-        'userData',
-        JSON.stringify({ ...response.data.body, ...data }),
-      );
-    });
+    try {
+      await schema.validate(data);
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        error.errors.map((err) => setErrors(err));
+      }
+      return false;
+    }
+
+    try {
+      await api.post('/clients/signin', data).then((response) => {
+        sessionStorage.setItem(
+          'userData',
+          JSON.stringify({ ...response.data.body, ...data }),
+        );
+      });
+    } catch (error) {
+      setErrors('Usuário inválido');
+      return false;
+    }
 
     const userData = JSON.parse(sessionStorage.getItem('userData'));
     const user = await api.get(`/clients/${userData.userId}`, {
@@ -41,13 +69,13 @@ const UserLogin = () => {
       }),
     );
     history.push('/user-dashboard');
+    return true;
   };
 
   return (
     <MainContainer>
       <div id="logo-container">
         <img id="logo-image" src={barberIcon} alt="barber-icon" />
-        {/* <h1 id="logo-title">Barbers</h1> */}
       </div>
 
       <div id="select-container">
@@ -70,6 +98,11 @@ const UserLogin = () => {
           <h3>
             Tipo de Login: <h3 style={{ color: colors.SkyBlue }}>Cliente</h3>
           </h3>
+          {errors ? (
+            <p style={{ color: 'red', margin: '.3em 0' }}>{errors}</p>
+          ) : (
+            ''
+          )}
         </div>
 
         <div id="form-container">
@@ -115,14 +148,6 @@ const UserLogin = () => {
         </div>
 
         <div id="button-container">
-          {/* <button
-            onClick={() => {
-              history.push('/provider-login');
-            }}
-            type="button"
-          >
-            Mudar para Barbeiro
-          </button> */}
           <button onClick={handleLogin} type="button">
             Fazer login
           </button>

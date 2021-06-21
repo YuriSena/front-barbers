@@ -8,6 +8,8 @@ import UserDashboard from './pages/User/Dashboard';
 import UserProfileConfig from './pages/User/Dashboard/ProfileConfig';
 import ProviderDashboard from './pages/Provider/Dashboard';
 import ProviderProfileConfig from './pages/Provider/Dashboard/ProfileConfig';
+import UserAppointment from './pages/User/Dashboard/Appointment';
+import ScheduleAppointment from './pages/User/Dashboard/ScheduleAppointment';
 
 function Routes() {
   return (
@@ -37,6 +39,16 @@ function Routes() {
           component={ProviderProfileConfig}
         />
         {/* rota para dashboard do barbeiro */}
+        <Route
+          exact
+          path="/user-dashboard/appointment"
+          component={UserAppointment}
+        />
+        <Route
+          exact
+          path="/user-dashboard/schedule-appointment"
+          component={ScheduleAppointment}
+        />
       </Switch>
     </BrowserRouter>
   );
