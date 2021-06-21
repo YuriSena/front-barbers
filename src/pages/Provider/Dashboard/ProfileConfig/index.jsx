@@ -12,15 +12,7 @@ function ProviderProfileConfig() {
   const history = useHistory();
   const [available, setAvailable] = useState([]);
   const userData = JSON.parse(sessionStorage.getItem('userData'));
-  const [monday, setMonday] = useState(false);
-  const [tuesday, setTuesday] = useState(false);
-  const [wednesday, setWednesday] = useState(false);
-  const [thursday, setThursday] = useState(false);
-  const [friday, setFriday] = useState(false);
-  const [saturday, setSaturday] = useState(false);
-  const [sunday, setSunday] = useState(false);
   const [day, setDay] = useState([{ weekday: '', startHour: '', endHour: '' }]);
-
   const [checked1, setChecked1] = useState(
     !!userData.services.find((e) => e.service === 'Barba'),
   );
@@ -34,6 +26,14 @@ function ProviderProfileConfig() {
     userData.services[1]?.price ? userData.services[1]?.price : 0,
   );
   const [isWaitingAvatarLoading, setIsWaitingAvatarLoading] = useState(false);
+
+  const [monday, setMonday] = useState(true);
+  const [tuesday, setTuesday] = useState(false);
+  const [wednesday, setWednesday] = useState(false);
+  const [thursday, setThursday] = useState(false);
+  const [friday, setFriday] = useState(false);
+  const [saturday, setSaturday] = useState(false);
+  const [sunday, setSunday] = useState(false);
 
   const [inputs, setInputs] = useState({
     email: userData.email,
@@ -60,24 +60,32 @@ function ProviderProfileConfig() {
       address: userData.address,
       name: userData.name,
       phone: userData.phone,
-      services: [''],
+      services: [],
       oldPassword: '',
       password: '',
-      prices: [''],
+      prices: [],
     };
 
-    if (checked1) {
+    if (checked1 && userData.services[0].price) {
       temp.services.push(1);
       temp.prices.push(userData.services[0].price);
     }
 
-    if (checked2) {
+    if (checked2 && userData.services[1].price) {
       temp.services.push(2);
       temp.prices.push(userData.services[1].price);
     }
 
     setInputs(temp);
     setDay(shifts);
+
+    setMonday(!!shifts.find((d) => d.weekday === 'monday'));
+    setTuesday(!!shifts.find((d) => d.weekday === 'tuesday'));
+    setWednesday(!!shifts.find((d) => d.weekday === 'wednesday'));
+    setThursday(!!shifts.find((d) => d.weekday === 'thursday'));
+    setFriday(!!shifts.find((d) => d.weekday === 'friday'));
+    setSaturday(!!shifts.find((d) => d.weekday === 'saturday'));
+    setSunday(!!shifts.find((d) => d.weekday === 'sunday'));
   }, []);
 
   useEffect(() => {
@@ -124,6 +132,32 @@ function ProviderProfileConfig() {
       'userData',
       JSON.stringify({ ...user.data.body, token: userData.token }),
     );
+
+    const schedules = [];
+
+    day.forEach((d) => {
+      const index = schedules.findIndex((s) => s.weekday === d.weekday);
+      if (d.startHour.length === 5 && d.endHour.length === 5) {
+        if (index >= 0) {
+          schedules[index].schedules.push([d.startHour, d.endHour]);
+        } else {
+          schedules.push({
+            weekday: d.weekday,
+            schedules: [[d.startHour, d.endHour]],
+          });
+        }
+      }
+    });
+
+    await api.post(
+      '/availabilities',
+      { schedules },
+      {
+        headers: {
+          Authorization: `Bearer ${userData.token}`,
+        },
+      },
+    );
     history.goBack();
   };
 
@@ -161,8 +195,8 @@ function ProviderProfileConfig() {
   };
 
   const handleAddShift = (weekday) => {
-    setAvailable(() => [
-      ...available,
+    setDay([
+      ...day,
       {
         weekday,
         startHour: '',
@@ -182,7 +216,6 @@ function ProviderProfileConfig() {
     items[index] = item;
     // 5. Set the state to our new copy
     setDay(items);
-    console.log(day);
   };
 
   const handleDeleteShifts = (weekday) => {
@@ -372,7 +405,7 @@ function ProviderProfileConfig() {
                           type="text"
                           name="end"
                           // value={shift.endHour}
-                          defaultValue={shift.startHour}
+                          defaultValue={shift.endHour}
                           onChange={(e) => handleDayChange(e, index, 'endHour')}
                         />
                       </div>
@@ -388,11 +421,6 @@ function ProviderProfileConfig() {
                     >
                       <IoMdAddCircleOutline size="30" />
                       <span>Adicionar turno</span>
-                    </div>
-
-                    <div id="save-shift-container">
-                      <FiSave size="30" />
-                      <span>Salvar turnos</span>
                     </div>
                   </div>
                 )}
@@ -410,29 +438,50 @@ function ProviderProfileConfig() {
                   Terça-feira
                 </label>
 
+                {tuesday &&
+                  day.map((shift, index) =>
+                    shift.weekday === 'tuesday' ? (
+                      <div
+                        key={`${shift.weekday}:${shift.startHour}`}
+                        id="start-end-container"
+                      >
+                        <label htmlFor="start">das</label>
+                        <input
+                          type="text"
+                          name="start"
+                          // value={shift.startHour}
+                          defaultValue={shift.startHour}
+                          // value={
+                          //   shift.weekday === 'tuesday' ? shift.startHour : ''
+                          // }
+                          onChange={(e) =>
+                            handleDayChange(e, index, 'startHour')
+                          }
+                          // onBlur={(e) => setDay({})}
+                        />
+                        <label htmlFor="end">às</label>
+                        <input
+                          type="text"
+                          name="end"
+                          // value={shift.endHour}
+                          defaultValue={shift.endHour}
+                          onChange={(e) => handleDayChange(e, index, 'endHour')}
+                        />
+                      </div>
+                    ) : (
+                      ''
+                    ),
+                  )}
                 {tuesday && (
-                  <>
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
+                  <div id="button-shift-container">
+                    <div
+                      id="addShift-container"
+                      onClick={() => handleAddShift('tuesday')}
+                    >
+                      <IoMdAddCircleOutline size="30" />
+                      <span>Adicionar turno</span>
                     </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-                  </>
+                  </div>
                 )}
 
                 <label htmlFor="wednesday">
@@ -448,30 +497,52 @@ function ProviderProfileConfig() {
                   Quarta-feira
                 </label>
 
+                {wednesday &&
+                  day.map((shift, index) =>
+                    shift.weekday === 'wednesday' ? (
+                      <div
+                        key={`${shift.weekday}:${shift.startHour}`}
+                        id="start-end-container"
+                      >
+                        <label htmlFor="start">das</label>
+                        <input
+                          type="text"
+                          name="start"
+                          // value={shift.startHour}
+                          defaultValue={shift.startHour}
+                          // value={
+                          //   shift.weekday === 'wednesday' ? shift.startHour : ''
+                          // }
+                          onChange={(e) =>
+                            handleDayChange(e, index, 'startHour')
+                          }
+                          // onBlur={(e) => setDay({})}
+                        />
+                        <label htmlFor="end">às</label>
+                        <input
+                          type="text"
+                          name="end"
+                          // value={shift.endHour}
+                          defaultValue={shift.endHour}
+                          onChange={(e) => handleDayChange(e, index, 'endHour')}
+                        />
+                      </div>
+                    ) : (
+                      ''
+                    ),
+                  )}
                 {wednesday && (
-                  <>
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
+                  <div id="button-shift-container">
+                    <div
+                      id="addShift-container"
+                      onClick={() => handleAddShift('wednesday')}
+                    >
+                      <IoMdAddCircleOutline size="30" />
+                      <span>Adicionar turno</span>
                     </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-                  </>
+                  </div>
                 )}
+
                 <label htmlFor="thursday">
                   <input
                     type="checkbox"
@@ -485,30 +556,52 @@ function ProviderProfileConfig() {
                   Quinta-feira
                 </label>
 
+                {thursday &&
+                  day.map((shift, index) =>
+                    shift.weekday === 'thursday' ? (
+                      <div
+                        key={`${shift.weekday}:${shift.startHour}`}
+                        id="start-end-container"
+                      >
+                        <label htmlFor="start">das</label>
+                        <input
+                          type="text"
+                          name="start"
+                          // value={shift.startHour}
+                          defaultValue={shift.startHour}
+                          // value={
+                          //   shift.weekday === 'thursday' ? shift.startHour : ''
+                          // }
+                          onChange={(e) =>
+                            handleDayChange(e, index, 'startHour')
+                          }
+                          // onBlur={(e) => setDay({})}
+                        />
+                        <label htmlFor="end">às</label>
+                        <input
+                          type="text"
+                          name="end"
+                          // value={shift.endHour}
+                          defaultValue={shift.endHour}
+                          onChange={(e) => handleDayChange(e, index, 'endHour')}
+                        />
+                      </div>
+                    ) : (
+                      ''
+                    ),
+                  )}
                 {thursday && (
-                  <>
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
+                  <div id="button-shift-container">
+                    <div
+                      id="addShift-container"
+                      onClick={() => handleAddShift('thursday')}
+                    >
+                      <IoMdAddCircleOutline size="30" />
+                      <span>Adicionar turno</span>
                     </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-                  </>
+                  </div>
                 )}
+
                 <label htmlFor="friday">
                   <input
                     type="checkbox"
@@ -522,30 +615,52 @@ function ProviderProfileConfig() {
                   Sexta-feira
                 </label>
 
+                {friday &&
+                  day.map((shift, index) =>
+                    shift.weekday === 'friday' ? (
+                      <div
+                        key={`${shift.weekday}:${shift.startHour}`}
+                        id="start-end-container"
+                      >
+                        <label htmlFor="start">das</label>
+                        <input
+                          type="text"
+                          name="start"
+                          // value={shift.startHour}
+                          defaultValue={shift.startHour}
+                          // value={
+                          //   shift.weekday === 'friday' ? shift.startHour : ''
+                          // }
+                          onChange={(e) =>
+                            handleDayChange(e, index, 'startHour')
+                          }
+                          // onBlur={(e) => setDay({})}
+                        />
+                        <label htmlFor="end">às</label>
+                        <input
+                          type="text"
+                          name="end"
+                          // value={shift.endHour}
+                          defaultValue={shift.endHour}
+                          onChange={(e) => handleDayChange(e, index, 'endHour')}
+                        />
+                      </div>
+                    ) : (
+                      ''
+                    ),
+                  )}
                 {friday && (
-                  <>
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
+                  <div id="button-shift-container">
+                    <div
+                      id="addShift-container"
+                      onClick={() => handleAddShift('friday')}
+                    >
+                      <IoMdAddCircleOutline size="30" />
+                      <span>Adicionar turno</span>
                     </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-                  </>
+                  </div>
                 )}
+
                 <label htmlFor="saturday">
                   <input
                     type="checkbox"
@@ -558,31 +673,52 @@ function ProviderProfileConfig() {
                   />
                   Sábado
                 </label>
-
+                {saturday &&
+                  day.map((shift, index) =>
+                    shift.weekday === 'saturday' ? (
+                      <div
+                        key={`${shift.weekday}:${shift.startHour}`}
+                        id="start-end-container"
+                      >
+                        <label htmlFor="start">das</label>
+                        <input
+                          type="text"
+                          name="start"
+                          // value={shift.startHour}
+                          defaultValue={shift.startHour}
+                          // value={
+                          //   shift.weekday === 'saturday' ? shift.startHour : ''
+                          // }
+                          onChange={(e) =>
+                            handleDayChange(e, index, 'startHour')
+                          }
+                          // onBlur={(e) => setDay({})}
+                        />
+                        <label htmlFor="end">às</label>
+                        <input
+                          type="text"
+                          name="end"
+                          // value={shift.endHour}
+                          defaultValue={shift.endHour}
+                          onChange={(e) => handleDayChange(e, index, 'endHour')}
+                        />
+                      </div>
+                    ) : (
+                      ''
+                    ),
+                  )}
                 {saturday && (
-                  <>
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
+                  <div id="button-shift-container">
+                    <div
+                      id="addShift-container"
+                      onClick={() => handleAddShift('saturday')}
+                    >
+                      <IoMdAddCircleOutline size="30" />
+                      <span>Adicionar turno</span>
                     </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-                  </>
+                  </div>
                 )}
+
                 <label htmlFor="sunday">
                   <input
                     type="checkbox"
@@ -596,29 +732,50 @@ function ProviderProfileConfig() {
                   Domingo
                 </label>
 
+                {sunday &&
+                  day.map((shift, index) =>
+                    shift.weekday === 'sunday' ? (
+                      <div
+                        key={`${shift.weekday}:${shift.startHour}`}
+                        id="start-end-container"
+                      >
+                        <label htmlFor="start">das</label>
+                        <input
+                          type="text"
+                          name="start"
+                          // value={shift.startHour}
+                          defaultValue={shift.startHour}
+                          // value={
+                          //   shift.weekday === 'sunday' ? shift.startHour : ''
+                          // }
+                          onChange={(e) =>
+                            handleDayChange(e, index, 'startHour')
+                          }
+                          // onBlur={(e) => setDay({})}
+                        />
+                        <label htmlFor="end">às</label>
+                        <input
+                          type="text"
+                          name="end"
+                          // value={shift.endHour}
+                          defaultValue={shift.endHour}
+                          onChange={(e) => handleDayChange(e, index, 'endHour')}
+                        />
+                      </div>
+                    ) : (
+                      ''
+                    ),
+                  )}
                 {sunday && (
-                  <>
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
+                  <div id="button-shift-container">
+                    <div
+                      id="addShift-container"
+                      onClick={() => handleAddShift('sunday')}
+                    >
+                      <IoMdAddCircleOutline size="30" />
+                      <span>Adicionar turno</span>
                     </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-
-                    <div id="start-end-container">
-                      <label htmlFor="start">das</label>
-                      <input type="text" name="start" />
-                      <label htmlFor="end">às</label>
-                      <input type="text" name="end" />
-                    </div>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
