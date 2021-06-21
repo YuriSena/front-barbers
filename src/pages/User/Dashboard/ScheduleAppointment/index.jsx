@@ -169,13 +169,25 @@ function ScheduleAppointment() {
               ''
             )}
 
-            <button
-              id="scheduling-button"
-              type="button"
-              onClick={handleCreateAppointment}
-            >
-              Agendar Horário
-            </button>
+            <div id="button-container">
+              <button
+                id="scheduling-button"
+                type="button"
+                onClick={handleCreateAppointment}
+              >
+                Agendar Horário
+              </button>
+
+              <button
+                id="back-button"
+                type="button"
+                onClick={() => {
+                  goBack();
+                }}
+              >
+                Voltar
+              </button>
+            </div>
           </div>
         </div>
       </div>

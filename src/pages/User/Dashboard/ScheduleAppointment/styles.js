@@ -111,15 +111,31 @@ export const MainContainer = styled.div`
           color: ${colors.SkyBlue};
         }
 
-        #scheduling-button {
-          margin-top: 2em;
-          width: 150px;
-          height: 30px;
-          background: #05598b;
-          border: 1px solid #05598b;
-          border-radius: 5px;
-          color: white;
-          cursor: pointer;
+        #button-container {
+          display: flex;
+          justify-content: space-between;
+
+          #scheduling-button {
+            margin-top: 2em;
+            width: 150px;
+            height: 30px;
+            background: #05598b;
+            border: 1px solid #05598b;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+          }
+
+          #back-button {
+            margin-top: 2em;
+            width: 150px;
+            height: 30px;
+            background: black;
+            border: 1px solid black;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+          }
         }
       }
     }
